@@ -1,0 +1,99 @@
+<div class="row m-4">
+    <div class="col-md-6 ml-auto mr-auto text-center">
+        <button class="btn btn-success" ng-click="showModal('AR')">Show Available Rooms </button>
+    </div>
+    <div class="col-md-6 ml-auto mr-auto text-center">
+        <button class="btn btn-success" ng-click="showModal('OR')">Show Occupied Rooms </button>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ShowRoomsModal" hidden id="showModalBtn">
+    Launch demo modal
+</button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="ShowRoomsModal" tabindex="-1" role="dialog" aria-labelledby="ShowRoomsModalTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-light">
+          <h5 ng-if="ShowOccupiedRooms" class="modal-title" id="ShowRoomsModalTitle">Occupied Rooms</h5>
+          <h5 ng-if="ShowAvailableRooms" class="modal-title" id="ShowRoomsModalTitle">Available Rooms</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="text-light">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover" ng-if="ShowAvailableRooms">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Room Number</th>
+                  <th>CheckIn Date </th>
+                  <th> Edit Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="room in displayRooms">
+                  <td>{{room.roomNumber }}</td>
+                  <td ng-if="room.Date != 'NA'">{{room.Date }} <button style="margin-left:3px;display:inline-block;color:red" value={{room}} ng-click="Undo($event.target.value)" class='fas fa-window-close' ></button></td>
+                  <td ng-if="room.Date == 'NA'">{{room.Date }}</td>
+                  <td><button class="btn btn-warning" ng-click="checkIn($event.target.value)" value={{room}}>Check-In</button></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-hover"  ng-if="ShowOccupiedRooms">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Room Number</th>
+                  <th>CheckedIn Date </th>
+                  <th> Edit Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="room in displayRooms">
+                  <td>{{room.roomNumber }}</td>
+                  <td>{{room.Date }}</td>
+                  <td><button class="btn btn-warning" ng-click="checkOut($event.target.value)" value={{room}}>Check-Out</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveChange()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATE TIME MODAL PROMPT -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dateTimeModal" hidden id="showDateTimeModal">
+    Launch DAte Time modal
+</button>
+  
+  <!-- Modal -->
+  <div class="modal fade bg-dark" id="dateTimeModal" tabindex="-1" role="dialog" aria-labelledby="dateTimeModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateTimeModalLabel">Select Date</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+            <datepicker date-format="dd-MM-y" date-only>
+                <input class="form-control-lg" ng-model="date" type="text" placeholder="Select Date of CheckIn" />
+            </datepicker>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveDate()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div ng-if="roomError"> -->
+    <error-ctrl ></error-ctrl>
+  <!-- </div> -->
